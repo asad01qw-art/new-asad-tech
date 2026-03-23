@@ -1,0 +1,95 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and role information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "client"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Portfolio project item.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "videoUrl": { "type": "string" },
+        "technologies": { "type": "array", "items": { "type": "string" } },
+        "clientFeedback": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["title", "description", "category"]
+    },
+    "ClientProject": {
+      "title": "Client Project",
+      "description": "Project tracking for a specific client.",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string", "enum": ["discovery", "design", "development", "testing", "completed"] },
+        "progress": { "type": "number" },
+        "description": { "type": "string" },
+        "type": { "type": "string", "description": "e.g. Website, Mobile App" },
+        "techStack": { "type": "array", "items": { "type": "string" } },
+        "stagingUrl": { "type": "string" },
+        "repoUrl": { "type": "string" },
+        "deliverables": { 
+          "type": "array", 
+          "items": { 
+            "type": "object", 
+            "properties": {
+              "task": { "type": "string" },
+              "completed": { "type": "boolean" }
+            }
+          } 
+        },
+        "files": { "type": "array", "items": { "type": "object" } },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "title", "status"]
+    },
+    "ChatMessage": {
+      "title": "Chat Message",
+      "description": "Real-time chat message between client and admin.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "text": { "type": "string" },
+        "fileUrl": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "receiverId", "text", "timestamp"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Client feedback for display.",
+      "type": "object",
+      "properties": {
+        "clientName": { "type": "string" },
+        "clientRole": { "type": "string" },
+        "content": { "type": "string" },
+        "avatarUrl": { "type": "string" }
+      },
+      "required": ["clientName", "content"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": { "schema": "User", "description": "User profiles" },
+    "/projects/{projectId}": { "schema": "Project", "description": "Portfolio projects" },
+    "/clientProjects/{projectId}": { "schema": "ClientProject", "description": "Active client projects" },
+    "/chats/{chatId}/messages/{messageId}": { "schema": "ChatMessage", "description": "Chat messages" },
+    "/testimonials/{id}": { "schema": "Testimonial", "description": "Client testimonials" }
+  }
+}
