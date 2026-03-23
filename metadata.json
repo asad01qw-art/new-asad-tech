@@ -1,9 +1,0 @@
-{
-  "name": "Asad Tech Studio",
-  "description": "Futuristic technology company website with immersive 3D animations, client portal, and real-time communication.",
-  "requestFramePermissions": [
-    "camera",
-    "microphone",
-    "geolocation"
-  ]
-}
